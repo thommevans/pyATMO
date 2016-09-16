@@ -52,6 +52,7 @@ class ATMO():
         # Radiative transfer parameters:
         self.nrays = 16
         self.scatter = True
+        self.irrad = True
         self.firad = '' # stellar spectrum filepath
         self.rstar = 0.749
         self.rorbit = 0.0559
