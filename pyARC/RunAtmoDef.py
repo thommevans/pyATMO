@@ -57,7 +57,7 @@ def Main( ATMO ):
     out_str += '&OPACITY\n'
     out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
     out_str += 'kap_smooth = {0}\n'.format( str( ATMO.kap_smooth ) )
-    out_str += 'kerkap_smooth = {0}\n'.format( int( ATMO.kernel_smooth ) )
+    out_str += 'kerkap_smooth = {0}\n'.format( int( ATMO.kerkap_smooth ) )
     out_str += '/\n'
     out_str += '&SOLVER\n'
     out_str += 'solve_hydro = {0}\n'.format( str( ATMO.solve_hydro ) )
