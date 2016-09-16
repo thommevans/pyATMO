@@ -65,7 +65,7 @@ class ATMO():
         # Opacity parameters:
         self.nkap = 6
         self.kap_smooth = True
-        self.kernel_smooth = 2
+        self.kerkap_smooth = 2
         # ATMO solver parameters:
         self.solve_hydro = True
         self.solve_energy = True
