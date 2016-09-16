@@ -77,5 +77,6 @@ def Main( ATMO ):
     print '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path )
 
     shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
+    os.system( shell_command )
 
     return None
