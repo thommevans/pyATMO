@@ -1,4 +1,4 @@
-
+import os
 
 def Main( ATMO ):
 
@@ -75,5 +75,7 @@ def Main( ATMO ):
     ofile.write( out_str )
     ofile.close()
     print '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path )
+
+    shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
 
     return None

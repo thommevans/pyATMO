@@ -10,6 +10,7 @@ class ATMO():
         """
         """
 
+        self.executable = '' # ATMO executable path
         self.infile_path = '' # ATMO input file path
 
         # Namelist parameters for ATMO:
