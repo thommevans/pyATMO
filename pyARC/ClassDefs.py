@@ -8,6 +8,10 @@ class ATMO():
 
     def __init__( self ):
         """
+        TODO - It might be necessary to provide the atmo inputs as a dictionary
+        of dictionaries eventually, where the top level keys provide the parameter
+        blocks, and the second level dictionaries provide the actual parameter
+        names and values.
         """
 
         self.executable = '' # ATMO executable path
