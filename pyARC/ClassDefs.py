@@ -1,5 +1,4 @@
 import pdb, os, sys, shutil
-import pyfits
 import numpy as np
 import MakeInDef, RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
 
