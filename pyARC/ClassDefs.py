@@ -1,7 +1,7 @@
 import pdb, os, sys, shutil
 import pyfits
 import numpy as np
-import MakeInDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
+import MakeInDef, RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
 
 class ATMO():
     """
@@ -79,34 +79,38 @@ class ATMO():
         self.optimiser = 'fmin'
         return None
 
-    def MakeIn( self ):
+
+    def RunAtmo( self ):
         """
-        Generates the ATMO input file given the model parameters specified
-        as class attributes.
+        Runs the ATMO solver given the input file.
         """
-        MakeInDef.main( self )
+        RunAtmoDef.Main( self )
         return None
+
 
     def Optimise( self ):
         """
         Optimises the posterior distribution with respect to the model parameters
         using the optimiser specified by the self.optimiser attribute.
         """
-        OptimiseDef.main( self )
+        OptimiseDef.Main( self )
         return None
+
 
     def Sample( self ):
         """
         Samples from the posterior distribution using the sampler specified by the
         self.sampler attribute.
         """
-        SampleDef.main( self )
+        SampleDef.Main( self )
         return None
+
 
     def Transmission( self ):
-        TransmissionDef.main( self )
+        TransmissionDef.Main( self )
         return None
 
+
     def Emission( self ):
-        EmissionDef.main( self )
+        EmissionDef.Main( self )
         return None
