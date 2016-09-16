@@ -1,6 +1,6 @@
 import pdb, os, sys, shutil
 import numpy as np
-import MakeInDef, RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
+import RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
 
 class ATMO():
     """
