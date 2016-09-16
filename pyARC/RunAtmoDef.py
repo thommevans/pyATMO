@@ -60,7 +60,13 @@ def Main( ATMO ):
     out_str += 'kernel_smooth = {0}'.format( ATMO.kernel_smooth )
     out_str += '/\n'
     out_str += '&SOLVER'
-    out_str += 'solve_hydro = {0}'.format( ATMO.solver_hydro )
+    out_str += 'solve_hydro = {0}'.format( ATMO.solve_hydro )
+    out_str += 'solve_energy = {0}'.format( ATMO.solve_energy )
+    out_str += 'minstep = {0}'.format( ATMO.minstep )
+    out_str += 'maxstep = {0}'.format( ATMO.maxstep )
+    out_str += 'accuracy = {0}'.format( ATMO.accuracy )
+    out_str += 'psurf = {0}'.format( ATMO.psurf )
+    out_str += 'print_err = {0}'.format( ATMO.print_err )
     out_str += '/\n'
     out_str += '&CONVECTION'
     out_str += 'alpha = {0}'.format( ATMO.alpha )
