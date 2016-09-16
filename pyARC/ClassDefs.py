@@ -11,10 +11,14 @@ class ATMO():
         """
         """
 
+        self.infile_path = '' # ATMO input file path
+
         # Namelist parameters for ATMO:
         self.Debug = 1
         self.fin = 'temp.ncdf'
         self.fout = 'pt.ncdf'
+        # Equation of state parameters:
+        self.gamma = 0.
         # Grid parameters:
         self.logg = 2.69
         self.teff = 100.
@@ -49,7 +53,7 @@ class ATMO():
         # Radiative transfer parameters:
         self.nrays = 16
         self.scatter = True
-        self.firad = 'lte048-4.5-0.0a+0.0.BT-NextGen.7.ncdf'
+        self.firad = '' # stellar spectrum filepath
         self.rstar = 0.749
         self.rorbit = 0.0559
         self.murad = 0.5
