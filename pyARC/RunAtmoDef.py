@@ -80,13 +80,13 @@ def Main( ATMO ):
     shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
     os.system( shell_command )
 
-    ReadPT( ATMO )
+    ReadPT( ATMO, ncdf_fpath=ATMO.fout )
 
     return None
 
 
-def ReadPT( ATMO ):
-    ncdfFile = scipy.io.netcdf.netcdf_file( ATMO.fout, 'r' )
+def ReadPT( ATMO, ncdf_fpath='' ):
+    ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, 'r' )
     z = ncdfFile.variables
     ATMO.TP = np.column_stack( [ z['temperature'][:], z['pressure'][:]/1e6 ] )
     return None
