@@ -1,6 +1,6 @@
 import pdb, os, sys, shutil
 import numpy as np
-import RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef
+import RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
 
 class ATMO():
     """
@@ -60,7 +60,7 @@ class ATMO():
         # CHEM_NEQ: Non-equilibrium chemistry parameters
         self.mixing = False # flag to turn vertical mixing on/off
         self.photochem = False # flag to turn photochemistry on/off
-        self.kzzcst = 1e9 # value of the Kzz term, if kzzcst = 0. then the value are read from 'fin'
+        self.kzzcst = 1e9 # value of the Kzz term, if kzzcst = 0. then the value is read from 'fin'
         self.nmol_eq = 107 # IS THIS STILL USED?
         self.tmax = 1e12 # the maximum integration time
         self.dtmax = 1e10 # the maximum time step
@@ -111,7 +111,8 @@ class ATMO():
         self.accuracy = 1e-1 # tolerance of the solver
         self.psurf = 1e-6 # the pressure at the upper boundary of the model (i.e. minimum pressure)
         self.print_err = False # IS THIS STILL USED?
-        # Convection parameters:
+
+        # CONVECTION: Convection parameters
         self.alpha = 0. # the mixing length for convection
         
         # Provide transmission data:
@@ -140,10 +141,18 @@ class ATMO():
         RunAtmoDef.Main( self )
         return None
 
-    def ReadPT( self ):
+    
+    def ReadPT( self, ncdf_fpath='' ):
         """
         """
-        RunAtmoDef.ReadPT( self )
+        Utils.ReadPT( self, ncdf_fpath=ncdf_fpath )
+        return None
+
+
+    def PlotPT( self, ofigpath='' ):
+        """
+        """
+        Utils.PlotPT( self, ofigpath=ofigpath )
         return None
 
 
