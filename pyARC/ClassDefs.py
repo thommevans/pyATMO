@@ -140,6 +140,12 @@ class ATMO():
         RunAtmoDef.Main( self )
         return None
 
+    def ReadPT( self ):
+        """
+        """
+        RunAtmoDef.ReadPT( self )
+        return None
+
 
     def Optimise( self ):
         """

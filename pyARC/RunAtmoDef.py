@@ -1,4 +1,5 @@
 import os
+import scipy.io
 
 def Main( ATMO ):
 
@@ -79,4 +80,13 @@ def Main( ATMO ):
     shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
     os.system( shell_command )
 
+    ReadPT( ATMO )
+
+    return None
+
+
+def ReadPT( ATMO ):
+    ncdfFile = scipy.io.netcdf.netcdf_file( ATMO.fout, 'r' )
+    z = ncdfFile.variables
+    ATMO.TP = np.column_stack( [ z['temperature'][:], z['pressure'][:]/1e6 ] )
     return None
