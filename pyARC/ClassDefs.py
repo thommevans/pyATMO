@@ -8,74 +8,117 @@ class ATMO():
 
     def __init__( self ):
         """
-        TODO - It might be necessary to provide the atmo inputs as a dictionary
-        of dictionaries eventually, where the top level keys provide the parameter
-        blocks, and the second level dictionaries provide the actual parameter
-        names and values.
+        ATMO object.
         """
 
         self.executable = '' # ATMO executable path
         self.infile_path = '' # ATMO input file path
 
-        # Namelist parameters for ATMO:
-        self.Debug = 1
-        self.fin = 'temp.ncdf'
-        self.fout = 'pt.ncdf'
+        # PARAM: Parameters for ATMO
+        self.Debug = 1 # Debug=1 prints additional information to screen to help with debugging
+        self.fout = 'pt.ncdf' # name of the output pressure-temperature file
+        self.fin = 'temp.ncdf' # name of the input pressure-temperature file; leave this 
+                               # undefined to start from an isothermal profile
+
         # Equation of state parameters:
-        self.gamma = 0.
-        # Grid parameters:
-        self.logg = 2.69
-        self.teff = 100.
-        self.ndepth = 50.
-        self.pmin = 1e-6
-        self.pmax = 1e3
-        self.Rp = 0.995
-        self.taumin = 1e-6
-        self.taumax = 1e3
-        self.nfreq = 250
-        self.corr_k = True
-        self.nkmix = 30
-        self.nband = 32
-        self.nband_std = 32
-        # Chemistry parameters:
-        self.chem = 'eq'
-        self.fAin = 'chem_dummy.ncdf'
-        self.fAeqout = 'chem_eq.ncdf'
-        self.fAneqout = 'chem_neq.ncdf'
-        self.fcoeff = '../../chem/coeff_NASA_sc.dat'
-        self.print_chem = True
-        # Non-equilibrium chemistry parameters:
-        self.mixing = False
-        self.photochem = False
-        self.nmol_eq = 107
-        self.kzzcst = 1e9
-        self.tmax = 1e12
-        self.dtmax = 1e10
-        self.rate_limiter = True
-        self.Nmin = 1e-100
-        self.atol = 1e-10
-        # Radiative transfer parameters:
-        self.nrays = 16
-        self.scatter = True
-        self.irrad = True
-        self.firad = '' # stellar spectrum filepath
-        self.rstar = 0.749
-        self.rorbit = 0.0559
-        self.murad = 0.5
-        # Opacity parameters:
-        self.nkap = 6
-        self.kap_smooth = True
-        self.kerkap_smooth = 2
-        # ATMO solver parameters:
-        self.solve_hydro = True
-        self.solve_energy = True
-        self.minstep = 1e-4
-        self.maxstep = 9e-1
-        self.accuracy = 1e-1
-        self.psurf = 1e-6
-        self.print_err = False
+        self.gamma = 0. # IS THIS STILL USED?
+
+        # GRID: Grid parameters
+        self.pmin = 1e-6 # the minimum initial pressure
+        self.pmax = 1e3 # the maximum initial pressure
+        self.taumin = 1e-6 # the minimum optical depth
+        self.taumax = 1e3 # the maximum optical depth
+        self.logg = 2.69 # the log of the gravity
+        self.teff = 100. # if irradiation is included, this represents the internal
+                         # temperature of the planet; if irradiation is not included, 
+                         # it represents the effective temperature of the atmosphere
+        self.ndepth = 50. # the number of levels
+        self.Rp = 0.995 # the planetary radius (in Jupiter radii)
+        self.pp_Rp = None # pressure at the radius Rp (in bar)
+        self.nfreq = 250 # the number of frequency points used in the radiation scheme
+        self.nkmix = 30 # number of k-coefficients for gas mixture
+        self.nband = 32 # the number of bands to use
+        self.nband_std = 32 # the band used to define the optical depth grid
+        self.corr_k = True # flag to use the correlated-k method (if false, line-by-line is used)
+
+        # CHEMISTRY: Chemistry parameters
+        self.chem = 'eq' # flag to choose which type of chemistry to use; 'ana' - analytical, 
+                         # 'eq' - equilibrium, 'neq' - non-equilibrium and 'cst' holds the 
+                         # abundances constant
+        self.MdH = 0. # metallicity of the atmosphere, log base 10. [M/H] = 0 for the Sun.  
+                      # [M/H] = 2 is 100x solar
+        self.COratio = 0. # The carbon-oxygen ratio. A default solar value ([C/O] ~ 0.56) is 
+                          # assumed if COratio = 0. E.g. a ~2x solar value would be COratio = 1.2.
+        self.fAin = 'chem_dummy.ncdf' # the name of the input chemistry file; if running 'ana' or 
+                                      # 'eq' this should be the chem_dummy file, otherwise it 
+                                      # should be a pre-calculated equilibrium chemistry file
+        self.fAeqout = 'chem_eq.ncdf' # the name of the output equilibrium chemistry file
+        self.fAneqout = 'chem_neq.ncdf' # the name of the output non-equilibrium chemistry file
+        self.fcoeff = '../../chem/coeff_NASA_sc.dat' # IS THIS STILL USED?
+        self.print_chem = True # IS THIS STILL USED?
+
+        # CHEM_NEQ: Non-equilibrium chemistry parameters
+        self.mixing = False # flag to turn vertical mixing on/off
+        self.photochem = False # flag to turn photochemistry on/off
+        self.kzzcst = 1e9 # value of the Kzz term, if kzzcst = 0. then the value are read from 'fin'
+        self.nmol_eq = 107 # IS THIS STILL USED?
+        self.tmax = 1e12 # the maximum integration time
+        self.dtmax = 1e10 # the maximum time step
+        self.rate_limiter = True # flag to turn on the rate limiter 
+        self.Nmin = 1e-100 # the minimum number density
+        self.atol = 1e-10 # the absolute tolerance of the solver
+
+        # RADTRANS: Radiative transfer parameters
+        self.nrays = 16 # the number of rays
+        self.scatter = True # flag to turn on scattering
+        self.irrad = True # flag to turn on irradiation
+        self.firad = '' # name of the irradiation input file
+        self.rstar = 0.749 # the radius of the star in solar radii
+        self.rorbit = 0.0559 # the semi-major axis of the planet in astronomical units
+        self.murad = 0.5 # the inclination angle of the irradiation
+        self.fred = 0.5 # the amount the irradiation is reduced at the top of the atmosphere; 
+                        # e.g. fred = 0.5 for efficient horizontal redistribution
+        self.ftrans_spec = '' # name of the output transmission spectrum
+
+        # OPACITY: Opacity parameters
+        self.nkap = 6 # the number of molecules used for opacities (note: ordering is hard-coded)
+                      # Addition of each opacity source along with the previous ones, with increase
+                      # in value of nkap are as follows:
+                      # 1) H2  2) He  3) H2O  4) CO2  5) CO  6) CH4  7) NH3  8) Na  9) K  10) Li  
+                      # 11) Rb  12) Cs  13) TiO  14) VO  15) FeH 16) PH3 17) H2S 18) HCN 
+                      # 19) C2H2 20) SO2
+        self.art_haze = 1 # the variable to input artificial haze/scattering.  
+                          # (e.g. art_haze = 1 means one times standard rayleigh scattering, 
+                          # 2 means two times and so on. Default = 1)
+        self.cloud = False # flag to turn on cloud deck (True or False), default is False
+        self.cloud_top = 1 # integer representing cloud top (minimum is 1 - top of the atmophsere, 
+                           # maximum is ndepth lowest level in the atmosphere). Default is 1.
+        self.cloud_bottom = 20 # integer representing cloud bottom (cloud_bottom should be greater 
+                               # than cloud_top). Default is 20. To check which pressure levels 
+                               # these layers correspond to, see your input p-t profile file.
+        self.cloud_strength = 1 # multiplication factor to increase cloud deck scattering opacity 
+                                # realtive to molecualr hydrogen scattering opacity. 
+                                # (e.g. 1x, 2x, 10x, 50x etc.). Default is 1
+        self.kap_smooth = True # smooths the opacities, important for convergence at the top of the
+                               # atmosphere
+        self.kerkap_smooth = 2 # smoothing kernel for opacities
+
+        # SOLVER: ATMO solver parameters
+        self.solve_hydro = True # flag to solve hydrostatic equation
+        self.solve_energy = True # flag to solve energy equation
+        self.minstep = 1e-4 # minimum step of the solver
+        self.maxstep = 9e-1 # maximum step of the solver
+        self.accuracy = 1e-1 # tolerance of the solver
+        self.psurf = 1e-6 # the pressure at the upper boundary of the model (i.e. minimum pressure)
+        self.print_err = False # IS THIS STILL USED?
         # Convection parameters:
-        self.alpha = 0.
+        self.alpha = 0. # the mixing length for convection
+        
+        # Provide transmission data:
+        # todo - define attributes to set wavelength ranges, bandpasses, Rp/Rs values and errorbars
+
+        # Provide emission data:
+        # todo - define attributes to set wavelength ranges, bandpasses, Fp/Fs values and errorbars
         
         # Functions for evaluating the posterior distribution:
         self.loglike_func = None # data likelihood
@@ -86,6 +129,7 @@ class ATMO():
         # Also standard optimisers like scipy.optimise.fmin.
         self.sampler = 'emcee'
         self.optimiser = 'fmin'
+
         return None
 
 
