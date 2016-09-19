@@ -21,7 +21,7 @@ class ATMO():
                                # undefined to start from an isothermal profile
 
         # Equation of state parameters:
-        self.gamma = 0. # IS THIS STILL USED?
+        self.gamma = 0. # 
 
         # GRID: Grid parameters
         self.pmin = 1e-6 # the minimum initial pressure
@@ -34,12 +34,13 @@ class ATMO():
                          # it represents the effective temperature of the atmosphere
         self.ndepth = 50. # the number of levels
         self.Rp = 0.995 # the planetary radius (in Jupiter radii)
-        self.pp_Rp = None # pressure at the radius Rp (in bar)
+        self.pp_Rp = 0. # pressure at the radius Rp (in bar)
         self.nfreq = 250 # the number of frequency points used in the radiation scheme
         self.nkmix = 30 # number of k-coefficients for gas mixture
         self.nband = 32 # the number of bands to use
         self.nband_std = 32 # the band used to define the optical depth grid
         self.corr_k = True # flag to use the correlated-k method (if false, line-by-line is used)
+        self.numax = 5e6 # upper limit on the wave number
 
         # CHEMISTRY: Chemistry parameters
         self.chem = 'eq' # flag to choose which type of chemistry to use; 'ana' - analytical, 
@@ -54,14 +55,14 @@ class ATMO():
                                       # should be a pre-calculated equilibrium chemistry file
         self.fAeqout = 'chem_eq.ncdf' # the name of the output equilibrium chemistry file
         self.fAneqout = 'chem_neq.ncdf' # the name of the output non-equilibrium chemistry file
-        self.fcoeff = '../../chem/coeff_NASA_sc.dat' # IS THIS STILL USED?
-        self.print_chem = True # IS THIS STILL USED?
+        self.fcoeff = '../../chem/coeff_NASA_sc.dat' # 
+        self.print_chem = True # 
 
         # CHEM_NEQ: Non-equilibrium chemistry parameters
         self.mixing = False # flag to turn vertical mixing on/off
         self.photochem = False # flag to turn photochemistry on/off
         self.kzzcst = 1e9 # value of the Kzz term, if kzzcst = 0. then the value is read from 'fin'
-        self.nmol_eq = 107 # IS THIS STILL USED?
+        self.nmol_eq = 107 # 
         self.tmax = 1e12 # the maximum integration time
         self.dtmax = 1e10 # the maximum time step
         self.rate_limiter = True # flag to turn on the rate limiter 
@@ -79,6 +80,10 @@ class ATMO():
         self.fred = 0.5 # the amount the irradiation is reduced at the top of the atmosphere; 
                         # e.g. fred = 0.5 for efficient horizontal redistribution
         self.ftrans_spec = '' # name of the output transmission spectrum
+        self.fspectrum = '' # name of the output emission spectrum
+        self.fcfout = '' # name of the output normalised contribution function file which is
+                         # a function of wavenumber and pressure
+        
 
         # OPACITY: Opacity parameters
         self.nkap = 6 # the number of molecules used for opacities (note: ordering is hard-coded)
@@ -110,8 +115,12 @@ class ATMO():
         self.maxstep = 9e-1 # maximum step of the solver
         self.accuracy = 1e-1 # tolerance of the solver
         self.psurf = 1e-6 # the pressure at the upper boundary of the model (i.e. minimum pressure)
-        self.print_err = False # IS THIS STILL USED?
-
+        self.print_err = False # 
+        self.transmission_spectrum = False # calculate transmission spectrum
+        self.surface_spectrum = False # calculate emission spectrum
+        self.hydrostatic = True # assume the PT profile is already in hydrostatic balance
+        self.calc_cf = True # set to True to obtain contribution function otherwise False
+        
         # CONVECTION: Convection parameters
         self.alpha = 0. # the mixing length for convection
         
@@ -134,11 +143,11 @@ class ATMO():
         return None
 
 
-    def RunAtmo( self ):
+    def RunATMO( self ):
         """
         Runs the ATMO solver given the input file.
         """
-        RunAtmoDef.Main( self )
+        RunATMODef.Main( self )
         return None
 
     
@@ -155,6 +164,20 @@ class ATMO():
         Utils.PlotPT( self, ofigpath=ofigpath )
         return None
 
+    
+    def ReadTransmissionModel( self, ncdf_fpath='' ):
+        """
+        """
+        Utils.ReadTransmissionModel( self, ncdf_fpath=ncdf_fpath )
+        return None
+    
+
+    def PlotTransmissionModel( self, ofigpath='', xscale='log' ):
+        """
+        """
+        Utils.PlotTransmissionModel( self, ofigpath=ofigpath, xscale=xscale )
+        return None
+    
 
     def Optimise( self ):
         """
