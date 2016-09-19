@@ -1,6 +1,6 @@
 import pdb, os, sys, shutil
 import numpy as np
-import RunAtmoDef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
+import RunATMODef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
 
 class ATMO():
     """
@@ -21,7 +21,7 @@ class ATMO():
                                # undefined to start from an isothermal profile
 
         # Equation of state parameters:
-        self.gamma = 0. # 
+        self.gamma = 0. #
 
         # GRID: Grid parameters
         self.pmin = 1e-6 # the minimum initial pressure
@@ -34,7 +34,7 @@ class ATMO():
                          # it represents the effective temperature of the atmosphere
         self.ndepth = 50. # the number of levels
         self.Rp = 0.995 # the planetary radius (in Jupiter radii)
-        self.pp_Rp = 0. # pressure at the radius Rp (in bar)
+        self.pp_Rp = 1e-3 # pressure at the radius Rp (in bar)
         self.nfreq = 250 # the number of frequency points used in the radiation scheme
         self.nkmix = 30 # number of k-coefficients for gas mixture
         self.nband = 32 # the number of bands to use

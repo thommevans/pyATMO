@@ -28,6 +28,7 @@ def Main( ATMO ):
     out_str += 'nband = {0}\n'.format( int( ATMO.nband ) )
     out_str += 'nband_std = {0}\n'.format( int( ATMO.nband_std ) )
     out_str += 'corr_k = {0}\n'.format( str( ATMO.corr_k ) )
+    out_str += 'numax = {0}\n'.format( float( ATMO.numax ) )
     out_str += '/\n'
     out_str += '&CHEMISTRY\n'
     out_str += 'chem = "{0}"\n'.format( str( ATMO.chem ) )
@@ -60,6 +61,8 @@ def Main( ATMO ):
     out_str += 'murad = {0}\n'.format( float( ATMO.murad ) )
     out_str += 'fred = {0}\n'.format( float( ATMO.fred ) )
     out_str += 'ftrans_spec = "{0}"\n'.format( str( ATMO.ftrans_spec ) )
+    out_str += 'fspectrum = "{0}"\n'.format( str( ATMO.fspectrum ) )
+    out_str += 'fcfout = "{0}"\n'.format( str( ATMO.fcfout ) )
     out_str += '/\n'
     out_str += '&OPACITY\n'
     out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
@@ -82,6 +85,7 @@ def Main( ATMO ):
     out_str += 'transmission_spectrum = {0}\n'.format( str( ATMO.transmission_spectrum ) )
     out_str += 'surface_spectrum = {0}\n'.format( str( ATMO.surface_spectrum ) )
     out_str += 'hydrostatic = {0}\n'.format( str( ATMO.hydrostatic ) )
+    out_str += 'calc_cf = {0}\n'.format( str( ATMO.calc_cf ) )
     out_str += '/\n'
     out_str += '&CONVECTION\n'
     out_str += 'alpha = {0}\n'.format( float( ATMO.alpha ) )
