@@ -123,12 +123,16 @@ class ATMO():
         
         # CONVECTION: Convection parameters
         self.alpha = 0. # the mixing length for convection
-        
-        # Provide transmission data:
-        # todo - define attributes to set wavelength ranges, bandpasses, Rp/Rs values and errorbars
 
+        # Array for holding the bandpass used to take the data:
+        # TODO - This might require some thought, e.g. what if there are multiple bandpasses
+        # for a heterogenous dataset?
+        
+        # Arrays for holding Transmission and Emission data:
+        self.TransmissionData = None
+        
         # Provide emission data:
-        # todo - define attributes to set wavelength ranges, bandpasses, Fp/Fs values and errorbars
+        #self.EmissionData = None
         
         # Functions for evaluating the posterior distribution:
         self.loglike_func = None # data likelihood

@@ -36,8 +36,8 @@ def ReadTransmissionModel( ATMO, ncdf_fpath='' ):
     z = ncdfFile.variables
     nu = z['nu'][:]
     RpRs = z['transit_radius'][:]
-    wav = nu # TODO update this to actually do wavelength
-    ATMO.TransmissionModel = np.column_stack( [ wav, RpRs ] )
+    wav_micron = (1e4)*( 1./nu )
+    ATMO.TransmissionModel = np.column_stack( [ wav_micron, RpRs ] )
     return None
 
 
@@ -45,8 +45,6 @@ def PlotTransmissionModel( ATMO, ofigpath='', xscale='log' ):
     # TODO adapt this from pt profile plotting
     plt.ion()
     if hasattr( ATMO, 'TransmissionModel' ):
-        xscales = [ 'log', 'linear' ]
-        ofigpaths = []
         fig = plt.figure( figsize=[14,12] )
         vbuff = 0.05
         axw = 0.85
@@ -58,11 +56,11 @@ def PlotTransmissionModel( ATMO, ofigpath='', xscale='log' ):
         ax2 = fig.add_axes( [ xlow, ylow2, axw, axh ] )
         lw = 2
         c = 'r'
-        wav = (1e4)*( 1./ATMO.TransmissionModel[:,0] )
+        wav_micron = ATMO.TransmissionModel[:,0]
         RpRs = ATMO.TransmissionModel[:,1]
         axs = [ ax1, ax2 ]
         for i in range( 2 ):
-            axs[i].plot( wav, RpRs, '-', lw=lw, c=c )
+            axs[i].plot( wav_micron, RpRs, '-', lw=lw, c=c )
             axs[i].set_xscale( xscale )
             axs[i].set_yscale( 'linear' )
         dRpRs = RpRs.max() - RpRs.min()
