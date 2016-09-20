@@ -102,7 +102,7 @@ class ATMO():
                                # than cloud_top). Default is 20. To check which pressure levels 
                                # these layers correspond to, see your input p-t profile file.
         self.cloud_strength = 1 # multiplication factor to increase cloud deck scattering opacity 
-                                # realtive to molecualr hydrogen scattering opacity. 
+                                # relative to molecular hydrogen scattering opacity. 
                                 # (e.g. 1x, 2x, 10x, 50x etc.). Default is 1
         self.kap_smooth = True # smooths the opacities, important for convergence at the top of the
                                # atmosphere

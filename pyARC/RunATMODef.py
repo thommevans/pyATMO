@@ -67,7 +67,7 @@ def Main( ATMO ):
     out_str += '&OPACITY\n'
     out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
     out_str += 'art_haze = {0}\n'.format( int( ATMO.art_haze ) )
-    out_str += 'cloud = {0}\n'.format( int( ATMO.cloud ) )
+    out_str += 'cloud = {0}\n'.format( str( ATMO.cloud ) )
     out_str += 'cloud_top = {0}\n'.format( int( ATMO.cloud_top ) )
     out_str += 'cloud_bottom = {0}\n'.format( int( ATMO.cloud_bottom ) )
     out_str += 'cloud_strength = {0}\n'.format( int( ATMO.cloud_strength ) )
