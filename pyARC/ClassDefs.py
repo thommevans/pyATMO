@@ -124,26 +124,14 @@ class ATMO():
         # CONVECTION: Convection parameters
         self.alpha = 0. # the mixing length for convection
 
-        # Array for holding the bandpass used to take the data:
-        # TODO - This might require some thought, e.g. what if there are multiple bandpasses
-        # for a heterogenous dataset?
+        # Dictionaries for holding Transmission data and throughputs:
+        self.TransmissionData = {}
+        self.TransmissionBandpass = {}
         
-        # Arrays for holding Transmission and Emission data:
-        self.TransmissionData = None
+        # Dictionaries for holding Eransmission data and throughputs:
+        self.EransmissionData = {}
+        self.EransmissionBandpass = {}
         
-        # Provide emission data:
-        #self.EmissionData = None
-        
-        # Functions for evaluating the posterior distribution:
-        self.loglike_func = None # data likelihood
-        self.logprior_func = None # priors
-
-        # Functions for controlling the optimiser and sampler.
-        # TODO = Have standard samplers emcee and pymultinest.
-        # Also standard optimisers like scipy.optimise.fmin.
-        self.sampler = 'emcee'
-        self.optimiser = 'fmin'
-
         return None
 
 
@@ -182,24 +170,6 @@ class ATMO():
         Utils.PlotTransmissionModel( self, ofigpath=ofigpath, xscale=xscale )
         return None
     
-
-    def Optimise( self ):
-        """
-        Optimises the posterior distribution with respect to the model parameters
-        using the optimiser specified by the self.optimiser attribute.
-        """
-        OptimiseDef.Main( self )
-        return None
-
-
-    def Sample( self ):
-        """
-        Samples from the posterior distribution using the sampler specified by the
-        self.sampler attribute.
-        """
-        SampleDef.Main( self )
-        return None
-
 
     def Transmission( self ):
         TransmissionDef.Main( self )
