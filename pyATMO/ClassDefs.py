@@ -1,6 +1,7 @@
 import pdb, os, sys, shutil
 import numpy as np
-import RunATMODef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
+#import RunATMODef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
+import RunATMODef, TransmissionDef, EmissionDef, Utils
 
 class ATMO():
     """
@@ -124,13 +125,6 @@ class ATMO():
         # CONVECTION: Convection parameters
         self.alpha = 0. # the mixing length for convection
 
-        # Dictionaries for holding Transmission data and throughputs:
-        self.TransmissionData = {}
-        self.TransmissionBandpass = {}
-        
-        # Dictionaries for holding Eransmission data and throughputs:
-        self.EransmissionData = {}
-        self.EransmissionBandpass = {}
         
         return None
 
