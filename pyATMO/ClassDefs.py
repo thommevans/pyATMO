@@ -13,6 +13,7 @@ class ATMO():
         """
 
         self.executable = '' # ATMO executable path
+        self.nice = None # nice rating to set execution priority (optional)
         self.infile_path = '' # ATMO input file path
 
         # PARAM: Parameters for ATMO

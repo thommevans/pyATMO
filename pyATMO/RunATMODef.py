@@ -95,10 +95,12 @@ def Main( ATMO ):
     ofile.close()
     print '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path )
 
-    shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
+    if ATMO.nice!=None:
+        shell_command = 'nice -n {0:.0f} ./{1} {2}'\
+                        .format( ATMO.nice, ATMO.executable, ATMO.infile_path )
+    else:
+        shell_command = './{0} {1}'.format( ATMO.executable, ATMO.infile_path )
     os.system( shell_command )
-
-    #Utils.ReadPT( ATMO, ncdf_fpath=ATMO.fout )
 
     return None
 
