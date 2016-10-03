@@ -4,6 +4,16 @@ import matplotlib.pyplot as plt
 import pdb
 
 
+
+def ReadChem( ATMO, ncdf_fpath='' ):
+    ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, mode='r', mmap=False )
+    z = ncdfFile.variables
+    #ATMO.PT = np.column_stack( [ z['pressure'][:]/1e6, z['temperature'][:] ] )
+    pdb.set_trace()
+    return None
+
+
+
 def ReadPT( ATMO, ncdf_fpath='' ):
     ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, mode='r', mmap=False )
     z = ncdfFile.variables

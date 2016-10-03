@@ -3,7 +3,6 @@ import Utils
 
 
 def Main( ATMO ):
-
     # First make the ATMO input file:
     out_str = '&PARAM\n'
     out_str += 'Debug = {0}\n'.format( int( ATMO.Debug ) )
@@ -32,8 +31,52 @@ def Main( ATMO ):
     out_str += '/\n'
     out_str += '&CHEMISTRY\n'
     out_str += 'chem = "{0}"\n'.format( str( ATMO.chem ) )
-    out_str += 'MdH = {0}\n'.format( float( ATMO.MdH ) )
-    out_str += 'COratio = {0}\n'.format( float( ATMO.COratio ) )
+    if ATMO.chem=='eq':
+        out_str += 'MdH = {0}\n'.format( float( ATMO.MdH ) )
+        out_str += 'COratio = {0}\n'.format( float( ATMO.COratio ) )
+    elif ATMO.chem=='man':
+        keys = ATMO.abundances.keys()
+        for key in keys:
+            if key=='H2':
+                out_str += 'Acst(001) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='He':
+                out_str += 'Acst(002) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='H2O':
+                out_str += 'Acst(003) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='CO2':
+                out_str += 'Acst(004) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='CO':
+                out_str += 'Acst(005) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='CH4':
+                out_str += 'Acst(006) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='NH3':
+                out_str += 'Acst(007) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='Na':
+                out_str += 'Acst(008) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='K':
+                out_str += 'Acst(009) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='Li':
+                out_str += 'Acst(010) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='Rb':
+                out_str += 'Acst(011) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='Cs':
+                out_str += 'Acst(012) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='TiO':
+                out_str += 'Acst(013) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='VO':
+                out_str += 'Acst(014) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='FeH':
+                out_str += 'Acst(015) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='PH3':
+                out_str += 'Acst(016) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='H2S':
+                out_str += 'Acst(017) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='HCN':
+                out_str += 'Acst(018) = {0}\n'.format( ATMO.abundances[key] )
+            elif key=='C2H2':
+                out_str += 'Acst(019) = {0}\n'.format( ATMO.abundances[key] )
+            else:
+                pdb.set_trace() # key not recognised
     out_str += 'fAin = "{0}"\n'.format( str( ATMO.fAin ) )
     out_str += 'fAeqout = "{0}"\n'.format( str( ATMO.fAeqout ) )
     out_str += 'fAneqout = "{0}"\n'.format( str( ATMO.fAneqout ) )
@@ -65,7 +108,58 @@ def Main( ATMO ):
     out_str += 'fcfout = "{0}"\n'.format( str( ATMO.fcfout ) )
     out_str += '/\n'
     out_str += '&OPACITY\n'
-    out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
+    if ATMO.opacity=='default':
+        out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
+    else:
+        nkap = len( ATMO.opacity )
+        out_str += 'nkap = {0}\n'.format( int( ATMO.nkap ) )
+        if ATMO.nband<=500:
+            specres = 500
+        else:
+            specres = 5000
+        for i in range( nkap ):
+            if ATMO.opacity[i]=='H2':
+                ncfile = '../../kabs/h2-h2_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='He':
+                ncfile = '../../kabs/h2-he_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='H2O':
+                ncfile = '../../kabs/h2o_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='CO2':
+                ncfile = '../../kabs/co2_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='CO':
+                ncfile = '../../kabs/co_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='CH4':
+                ncfile = '../../kabs/ch4_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='NH3':
+                ncfile = '../../kabs/nh3_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='Na':
+                ncfile = '../../kabs/na_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='K':
+                ncfile = '../../kabs/k_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='Li':
+                ncfile = '../../kabs/li_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='Rb':
+                ncfile = '../../kabs/rb_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='Cs':
+                ncfile = '../../kabs/cs_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='TiO':
+                ncfile = '../../kabs/tio_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='VO':
+                ncfile = '../../kabs/vo_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='FeH':
+                ncfile = '../../kabs/feh_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='PH3':
+                ncfile = '../../kabs/ph3_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='H2S':
+                ncfile = '../../kabs/h2s_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='HCN':
+                ncfile = '../../kabs/hcn_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            elif ATMO.opacity[i]=='C2H2':
+                ncfile = '../../kabs/c2h2_{0:.0f}_t5e-3_uw1116.nc'.format( specres )
+            else:
+                pdb.set_trace() # unrecognised opacity source
+            out_str += 'kapname({0:02})  = "{1}"  ; fktab({0:02})  = {2}'\
+                       .format( i+1, ATMO.opacity[i], ncfile )
     out_str += 'art_haze = {0}\n'.format( int( ATMO.art_haze ) )
     out_str += 'cloud = {0}\n'.format( str( ATMO.cloud ) )
     out_str += 'cloud_top = {0}\n'.format( int( ATMO.cloud_top ) )

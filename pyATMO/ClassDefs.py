@@ -47,7 +47,9 @@ class ATMO():
         # CHEMISTRY: Chemistry parameters
         self.chem = 'eq' # flag to choose which type of chemistry to use; 'ana' - analytical, 
                          # 'eq' - equilibrium, 'neq' - non-equilibrium and 'cst' holds the 
-                         # abundances constant
+                         # abundances constant (+ 'man' for manual abundances)
+        self.abundances = {} # dictionary containing abundances for molecules to be used
+                             # if chem=='man'
         self.MdH = 0. # metallicity of the atmosphere, log base 10. [M/H] = 0 for the Sun.  
                       # [M/H] = 2 is 100x solar
         self.COratio = 0. # The carbon-oxygen ratio. A default solar value ([C/O] ~ 0.56) is 
@@ -88,6 +90,9 @@ class ATMO():
         
 
         # OPACITY: Opacity parameters
+        self.opacity = 'default' # If set to 'default', uses nkap to set opacity sources.
+                                 # Alternatively, can be a list of molecules,
+                                 # e.g. opacity = [ 'H2', 'He', 'H2O', 'CO2', 'TiO' ]
         self.nkap = 6 # the number of molecules used for opacities (note: ordering is hard-coded)
                       # Addition of each opacity source along with the previous ones, with increase
                       # in value of nkap are as follows:
@@ -138,6 +143,13 @@ class ATMO():
         return None
 
     
+    def ReadChem( self, ncdf_fpath='' ):
+        """
+        """
+        Utils.ReadChem( self, ncdf_fpath=ncdf_fpath )
+        return None
+
+
     def ReadPT( self, ncdf_fpath='' ):
         """
         """
