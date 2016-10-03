@@ -9,7 +9,14 @@ def ReadChem( ATMO, ncdf_fpath='' ):
     ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, mode='r', mmap=False )
     z = ncdfFile.variables
     #ATMO.PT = np.column_stack( [ z['pressure'][:]/1e6, z['temperature'][:] ] )
-    pdb.set_trace()
+    molname = []
+    for i in z['molname'][:]:
+        molnamei = ''
+        for j in i:
+            molnamei += j
+        molname += [ molnamei.replace( ' ', '' ) ]
+    ATMO.Chem = { 'molname':molname, 'pressure':z['pressure'][:]/1e6, \
+                  'abundance':z['abundances'][:] }
     return None
 
 

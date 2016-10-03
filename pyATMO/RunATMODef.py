@@ -188,7 +188,6 @@ def Main( ATMO ):
     ofile.write( out_str )
     ofile.close()
     print '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path )
-
     if ATMO.nice!=None:
         shell_command = 'nice -n {0:.0f} ./{1} {2}'\
                         .format( ATMO.nice, ATMO.executable, ATMO.infile_path )
