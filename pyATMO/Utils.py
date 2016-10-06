@@ -1,24 +1,22 @@
 import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
-import pdb
+import pdb, os, sys
 
 
 
 def ReadChem( ATMO, ncdf_fpath='' ):
     ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, mode='r', mmap=False )
     z = ncdfFile.variables
-    #ATMO.PT = np.column_stack( [ z['pressure'][:]/1e6, z['temperature'][:] ] )
     molname = []
     for i in z['molname'][:]:
         molnamei = ''
         for j in i:
             molnamei += j
         molname += [ molnamei.replace( ' ', '' ) ]
-    ATMO.Chem = { 'molname':molname, 'pressure':z['pressure'][:]/1e6, \
+    ATMO.Chem = { 'molname':molname, 'pressure_bar':z['pressure'][:]/1e6, \
                   'abundance':z['abundances'][:] }
     return None
-
 
 
 def ReadPT( ATMO, ncdf_fpath='' ):
@@ -55,11 +53,39 @@ def ReadTransmissionModel( ATMO, ncdf_fpath='' ):
     nu = z['nu'][:]
     RpRs = z['transit_radius'][:]
     wav_micron = (1e4)*( 1./nu )
-    ATMO.TransmissionModel = np.column_stack( [ wav_micron, RpRs ] )
+    ixs = np.argsort( wav_micron )
+    ATMO.TransmissionModel = np.column_stack( [ wav_micron[ixs], RpRs[ixs] ] )
     return None
 
 
-def PlotTransmissionModel( ATMO, ofigpath='', xscale='log' ):
+def ComputeOpacities( ATMO, species=[ 'H2O', 'CO', 'CH4' ], odir='.' ):
+    freeze = ATMO.__dict__
+    species = np.array( species )
+    n = len( species )
+    ATMO.nkap = 1
+    ATMO.scatter = False
+    print '\nSaving opacities:'
+    for i in range( n ):
+        ATMO.opacity = [ species[i] ]
+        ofilename = 'opacity.{0}.ncdf'.format( species[i] )
+        ATMO.ftrans_spec = os.path.join( odir, ofilename )
+        ATMO.RunATMO()
+        print ATMO.infile_path
+        print '{0}'.format( ATMO.ftrans_spec )
+        # Testing below here:
+        ATMO.ReadTransmissionModel( ncdf_fpath=ATMO.ftrans_spec )
+        x = ATMO.TransmissionModel[:,0]
+        y = ATMO.TransmissionModel[:,1]
+        plt.figure()
+        plt.plot(x,y,'-')
+        plt.title( species[i] )
+        plt.show()
+    for key in freeze.keys():
+        ATMO.__dict__[key] = freeze[key]
+    return None
+
+
+def PlotTransmissionModel( ATMO, ofigpath='', xscale='log', yscale='linear' ):
     # TODO adapt this from pt profile plotting
     plt.ion()
     if hasattr( ATMO, 'TransmissionModel' ):
@@ -80,7 +106,7 @@ def PlotTransmissionModel( ATMO, ofigpath='', xscale='log' ):
         for i in range( 2 ):
             axs[i].plot( wav_micron, RpRs, '-', lw=lw, c=c )
             axs[i].set_xscale( xscale )
-            axs[i].set_yscale( 'linear' )
+            axs[i].set_yscale( yscale )
         dRpRs = RpRs.max() - RpRs.min()
         x1a = 0.26
         x1b = 10.0

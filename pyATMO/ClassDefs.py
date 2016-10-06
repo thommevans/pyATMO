@@ -99,9 +99,9 @@ class ATMO():
                       # 1) H2  2) He  3) H2O  4) CO2  5) CO  6) CH4  7) NH3  8) Na  9) K  10) Li  
                       # 11) Rb  12) Cs  13) TiO  14) VO  15) FeH 16) PH3 17) H2S 18) HCN 
                       # 19) C2H2 20) SO2
-        self.art_haze = 1 # the variable to input artificial haze/scattering.  
-                          # (e.g. art_haze = 1 means one times standard rayleigh scattering, 
-                          # 2 means two times and so on. Default = 1)
+        self.art_haze = None # the variable to input artificial haze/scattering.  
+                             # (e.g. art_haze = 1 means one times standard rayleigh scattering, 
+                             # 2 means two times and so on. Default = 1)
         self.cloud = False # flag to turn on cloud deck (True or False), default is False
         self.cloud_top = 1 # integer representing cloud top (minimum is 1 - top of the atmophsere, 
                            # maximum is ndepth lowest level in the atmosphere). Default is 1.
@@ -143,6 +143,13 @@ class ATMO():
         return None
 
     
+    def ComputeOpacities( self, species=[ 'H2O', 'CO', 'CH4' ], odir='.' ):
+        """
+        """
+        Utils.ComputeOpacities( self, species=species, odir=odir )
+        return None
+
+
     def ReadChem( self, ncdf_fpath='' ):
         """
         """
