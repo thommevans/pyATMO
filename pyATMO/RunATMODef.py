@@ -27,7 +27,8 @@ def Main( ATMO ):
     out_str += 'nband = {0}\n'.format( int( ATMO.nband ) )
     out_str += 'nband_std = {0}\n'.format( int( ATMO.nband_std ) )
     out_str += 'corr_k = {0}\n'.format( str( ATMO.corr_k ) )
-    out_str += 'numax = {0}\n'.format( float( ATMO.numax ) )
+    if ATMO.corr_k==False:
+        out_str += 'numax = {0}\n'.format( float( ATMO.numax ) )
     out_str += '/\n'
     out_str += '&CHEMISTRY\n'
     out_str += 'chem = "{0}"\n'.format( str( ATMO.chem ) )
@@ -173,6 +174,9 @@ def Main( ATMO ):
 
 
 def get_chemmap():
+    """
+    Maps opacity sources to corresponding index used by ATMO.
+    """
     return { 'H2':1, 'O-3P':2, 'O-1D':3, 'CO':4, 'C':5, \
              'CH':6, '3CH2':7, '1CH2':8, 'H2O':9, 'O2':10, \
              'H2O2':11, 'CH4':12,     'H2CO':13, 'CH3OH':14, 'CO2':15, \
