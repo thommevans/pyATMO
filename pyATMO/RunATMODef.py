@@ -1,4 +1,4 @@
-import os
+import os, pdb
 import Utils
 
 
@@ -19,6 +19,8 @@ def Main( ATMO ):
     out_str += 'taumax = {0}\n'.format( float( ATMO.taumax ) )
     out_str += 'logg = {0}\n'.format( float( ATMO.logg ) )
     out_str += 'teff = {0}\n'.format( float( ATMO.teff ) )
+    out_str += 'Tinit = {0}\n'.format( float( ATMO.Tinit ) )
+    out_str += 'isothermal = {0}\n'.format( str( ATMO.isothermal ) )
     out_str += 'ndepth = {0}\n'.format( int( ATMO.ndepth ) )
     out_str += 'Rp = {0}\n'.format( float( ATMO.Rp ) )
     out_str += 'pp_Rp = {0}\n'.format( float( ATMO.pp_Rp ) )

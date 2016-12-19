@@ -34,6 +34,8 @@ class ATMO():
         self.teff = 100. # if irradiation is included, this represents the internal
                          # temperature of the planet; if irradiation is not included, 
                          # it represents the effective temperature of the atmosphere
+        self.Tinit = 100. # need to check what this is for
+        self.isothermal = False # need to check how this works
         self.ndepth = 50. # the number of levels
         self.Rp = 0.995 # the planetary radius (in Jupiter radii)
         self.pp_Rp = 1e-3 # pressure at the radius Rp (in bar)
