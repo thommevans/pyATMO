@@ -180,6 +180,13 @@ class ATMO():
         return None
     
 
+    def ReadEmissionModel( self, ncdf_fpath='' ):
+        """
+        """
+        Utils.ReadEmissionModel( self, ncdf_fpath=ncdf_fpath )
+        return None
+    
+
     def PlotTransmissionModel( self, ofigpath='', xscale='log' ):
         """
         """

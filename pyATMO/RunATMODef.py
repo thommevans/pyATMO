@@ -57,6 +57,7 @@ def Main( ATMO ):
     out_str += 'fAneqout = "{0}"\n'.format( str( ATMO.fAneqout ) )
     out_str += 'fcoeff = "{0}"\n'.format( str( ATMO.fcoeff ) )
     out_str += 'print_chem = {0}\n'.format( str( ATMO.print_chem ) )
+    out_str += 'calc_cp_chem = {0}\n'.format( str( ATMO.calc_cp_chem ) )
     out_str += '/\n'
     out_str += '&CHEM_NEQ\n'
     out_str += 'mixing = {0}\n'.format( str( ATMO.mixing ) )
