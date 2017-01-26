@@ -68,6 +68,8 @@ def ReadEmissionModel( ATMO, ncdf_fpath='' ):
     ncdfFile = scipy.io.netcdf.netcdf_file( ncdf_fpath, mode='r', mmap=False )
     z = ncdfFile.variables
     nu = z['nu'][:]
+    nubandmin = z['nubandmin'][:]
+    nubandmax = z['nubandmax'][:]
     fnu_p = z['fnu'][:]
     fnu_s = z['fnu_star'][:]
     Rp = z['R_planet_TOA'].data
@@ -75,7 +77,15 @@ def ReadEmissionModel( ATMO, ncdf_fpath='' ):
     FpFs = ( ( Rp/Rs )**2. )*( fnu_p/fnu_s )
     wav_micron = (1e4)*( 1./nu )
     ixs = np.argsort( wav_micron )
-    ATMO.EmissionModel = np.column_stack( [ wav_micron[ixs], FpFs[ixs] ] )
+    ATMO.EmissionModelNuCGS = nu[ixs]
+    ATMO.EmissionModelNuBandMinCGS = nubandmin
+    ATMO.EmissionModelNuBandMaxCGS = nubandmax
+    ATMO.EmissionModelWavMicron = wav_micron[ixs]
+    ATMO.EmissionModelFpFs = FpFs[ixs]
+    ATMO.EmissionModelFpnu = fnu_p[ixs]
+    ATMO.EmissionModelRp = Rp
+    ATMO.EmissionModelFsnu = fnu_s[ixs]
+    ATMO.EmissionModelRs = Rs
     return None
 
 
