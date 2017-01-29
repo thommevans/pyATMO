@@ -72,20 +72,20 @@ def ReadEmissionModel( ATMO, ncdf_fpath='' ):
     nubandmax = z['nubandmax'][:]
     fnu_p = z['fnu'][:]
     fnu_s = z['fnu_star'][:]
-    Rp = z['R_planet_TOA'].data
+    RpTOA = z['R_planet_TOA'].data
     Rs = z['R_star'].data
-    FpFs = ( ( Rp/Rs )**2. )*( fnu_p/fnu_s )
+    FpFsTOA = ( ( RpTOA/Rs )**2. )*( fnu_p/fnu_s )
     wav_micron = (1e4)*( 1./nu )
     ixs = np.argsort( wav_micron )
     ATMO.EmissionModelNuCGS = nu[ixs]
-    ATMO.EmissionModelNuBandMinCGS = nubandmin
-    ATMO.EmissionModelNuBandMaxCGS = nubandmax
+    ATMO.EmissionModelNuBandMin_cgs = nubandmin
+    ATMO.EmissionModelNuBandMax_cgs = nubandmax
     ATMO.EmissionModelWavMicron = wav_micron[ixs]
-    ATMO.EmissionModelFpFs = FpFs[ixs]
+    ATMO.EmissionModelFpFsTOA = FpFsTOA[ixs]
     ATMO.EmissionModelFpnu = fnu_p[ixs]
-    ATMO.EmissionModelRp = Rp
+    ATMO.EmissionModelRpTOA_cgs = RpTOA
     ATMO.EmissionModelFsnu = fnu_s[ixs]
-    ATMO.EmissionModelRs = Rs
+    ATMO.EmissionModelRs_cgs = Rs
     return None
 
 
