@@ -14,8 +14,15 @@ def ReadChem( ATMO, ncdf_fpath='' ):
         for j in i:
             molnamei += j
         molname += [ molnamei.replace( ' ', '' ) ]
-    ATMO.Chem = { 'molname':molname, 'pressure_bar':z['pressure'][:]/1e6, \
-                  'abundance':z['abundances'][:] }
+    abundance = {}
+    n = len( molname )
+    for i in range( n ):
+        k = molname[i]
+        abundance[k] = z['abundances'][:][i,:]
+    #ATMO.Chem = { 'molname':molname, 'pressure_bar':z['pressure'][:]/1e6, \
+    #              'abundance':z['abundances'][:] }
+    ATMO.Chem = { 'abundance':abundance, 'pressure_bar':z['pressure'][:]/1e6 }
+    
     return None
 
 
