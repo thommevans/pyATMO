@@ -1,5 +1,6 @@
+from __future__ import print_function
 import os, pdb
-import Utils
+from . import Utils
 
 
 def Main( ATMO ):
@@ -165,7 +166,7 @@ def Main( ATMO ):
     ofile = open( ATMO.infile_path, 'w' )
     ofile.write( out_str )
     ofile.close()
-    print '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path )
+    print( '\nCreated ATMO input file:\n{0}'.format( ATMO.infile_path ) )
     if ATMO.nice!=None:
         shell_command = 'nice -n {0:.0f} ./{1} {2}'\
                         .format( ATMO.nice, ATMO.executable, ATMO.infile_path )

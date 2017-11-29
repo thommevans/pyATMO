@@ -1,1 +1,1 @@
-from ClassDefs import *
+from .ClassDefs import *

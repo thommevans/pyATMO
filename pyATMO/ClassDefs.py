@@ -1,7 +1,8 @@
+from __future__ import print_function
 import pdb, os, sys, shutil
 import numpy as np
 #import RunATMODef, OptimiseDef, SampleDef, TransmissionDef, EmissionDef, Utils
-import RunATMODef, TransmissionDef, EmissionDef, Utils
+from . import RunATMODef, TransmissionDef, EmissionDef, Utils
 
 class ATMO():
     """

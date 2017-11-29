@@ -1,3 +1,4 @@
+from __future__ import print_function
 import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
@@ -54,9 +55,9 @@ def PlotPT( ATMO, ofigpath='' ):
         ax.set_yscale( 'log' )
         ax.set_ylim( [ ATMO.PT[:,0].max(), ATMO.PT[:,0].min() ] )
         fig.savefig( ofigpath )
-        print '\nSaved PT figure: {0}\n'.format( ofigpath )
+        print( '\nSaved PT figure: {0}\n'.format( ofigpath ) )
     else:
-        print '\nPT attribute does not exist. Run ReadPT() first.\n'
+        print( '\nPT attribute does not exist. Run ReadPT() first.\n' )
     return None
 
 
@@ -102,14 +103,14 @@ def ComputeOpacities( ATMO, species=[ 'H2O', 'CO', 'CH4' ], odir='.' ):
     n = len( species )
     ATMO.nkap = 1
     ATMO.scatter = False
-    print '\nSaving opacities:'
+    print( '\nSaving opacities:' )
     for i in range( n ):
         ATMO.opacity = [ species[i] ]
         ofilename = 'opacity.{0}.ncdf'.format( species[i] )
         ATMO.ftrans_spec = os.path.join( odir, ofilename )
         ATMO.RunATMO()
-        print ATMO.infile_path
-        print '{0}'.format( ATMO.ftrans_spec )
+        print( ATMO.infile_path )
+        print( '{0}'.format( ATMO.ftrans_spec ) )
         # Testing below here:
         ATMO.ReadTransmissionModel( ncdf_fpath=ATMO.ftrans_spec )
         x = ATMO.TransmissionModel[:,0]
@@ -155,8 +156,8 @@ def PlotTransmissionModel( ATMO, ofigpath='', xscale='log', yscale='linear' ):
         ax1.set_ylim( [ RpRs.min()-0.15*dRpRs, RpRs.max()+0.15*dRpRs ] )
         ax2.set_ylim( [ RpRs.min()-0.15*dRpRs, RpRs.max()+0.15*dRpRs ] )        
         fig.savefig( ofigpath )
-        print '\nSaved TransmissionModel figure: {0}\n'.format( ofigpath )
+        print( '\nSaved TransmissionModel figure: {0}\n'.format( ofigpath ) )
     else:
-        print '\nTransmissionModel attribute does not exist. Run ReadTransmissionModel() first.\n'
+        print( '\nTransmissionModel attribute does not exist. Run ReadTransmissionModel() first.\n' )
     return None
 
