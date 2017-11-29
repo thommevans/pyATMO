@@ -12,7 +12,7 @@ def ReadChem( ATMO, ncdf_fpath='' ):
     for i in z['molname'][:]:
         molnamei = ''
         for j in i:
-            molnamei += j
+            molnamei += j.decode( 'UTF-8' )
         molname += [ molnamei.replace( ' ', '' ) ]
     abundance = {}
     n = len( molname )
